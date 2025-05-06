@@ -1,69 +1,86 @@
-Leukemia Classification System using Deep Learning
-This project is a deep learning-based system for detecting leukemia from blood smear images. It uses a fine-tuned ResNet18 convolutional neural network (CNN) to classify blood smear images as Leukemia or Healthy. The system provides a web application for users to upload images and get instant classification results.
+🧬 Leukemia Classification System using Deep Learning
+A deep learning-based web application that classifies blood smear images as Leukemia or Healthy using a fine-tuned ResNet18 CNN model. The system is built with Flask and provides an easy-to-use UI for real-time prediction and visualization.
 
-Project Overview
-The Leukemia Classification System automates the process of detecting leukemia in blood smear images using deep learning. The system is built using Flask for the web application, PyTorch for the model, and ResNet18 as the backbone architecture for the CNN model.
+📌 Highlights
+✅ 99.65% Accuracy in classifying leukemia vs. healthy cells
 
-Key Features:
-High Accuracy: Achieves 99.65% accuracy in classifying blood smear images.
+🧠 Powered by ResNet18 pretrained CNN
 
-Real-Time Prediction: Users can upload images and get classification results instantly.
+🌐 Simple Flask Web Interface for uploading and predicting images
 
-Interpretability: Grad-CAM is used for visualizing the regions of the image that contribute to the classification decision.
+🔍 Includes Grad-CAM visualization for model interpretability
 
-Web Interface: Simple, easy-to-use UI for uploading images and viewing results.
+⚙️ Built using PyTorch, Flask, HTML/CSS/JS
 
-Technologies Used
-Flask: Web framework for creating the application and handling HTTP requests.
+📁 Project Structure
 
-PyTorch: Framework for building, training, and deploying deep learning models.
 
-ResNet18: Pretrained Convolutional Neural Network used for image classification.
+├── app.py               # Flask web app backend
+├── model.pth            # Trained ResNet18 model
+├── static/              # Static files (CSS, JS, images)
+├── templates/           # HTML templates
+├── utils.py             # Image preprocessing and Grad-CAM logic
+├── requirements.txt     # Python dependencies
 
-Grad-CAM: Used for visualizing which areas of the input image are important for model predictions.
 
-HTML/CSS: For frontend UI design.
+🧠 Technologies Used
+Component                   Technology
+Framework	                    Flask
+Deep Learning	                PyTorch
+Model	                        ResNet18
+Visualization               	Grad-CAM
+Frontend	                  HTML, CSS, JS
 
-JavaScript: For dynamic interactivity in the web application.
 
-Dataset
-The model was trained on a dataset of 13,000 high-resolution labeled blood smear images, split into:
+📊 Dataset Info
+Total Images: 13,000
 
-ALL (Acute Lymphoblastic Leukemia): 7,000 images for training
+-->Training:
 
-HEM (Healthy): 3,000 images for training
+7,000 images of ALL (Leukemia)
 
-Test Set: 2,000 ALL images and 1,000 HEM images.
+3,000 images of HEM (Healthy)
 
-Image Preprocessing:
-Resized to 224x224 pixels.
+-->Testing:
 
-Normalized using ImageNet's mean and standard deviation.
+2,000 images of ALL
 
-Augmented with techniques such as rotation, flipping, and contrast adjustment.
+1,000 images of HEM
 
-Model Architecture
-The system uses ResNet18, a lightweight convolutional neural network, for binary classification. The model was fine-tuned on the dataset, achieving high accuracy in classifying images into Leukemia and Healthy classes.
+🔧 Preprocessing:
+Resize to 224x224
 
-Optimizer: Adam
+Normalize using ImageNet mean & std
 
-Loss Function: Cross-Entropy Loss
+Augmentations: rotation, flip, contrast adjustment
 
-Training Epochs: 50
+🏗️ Model Details
+🔹 Architecture: ResNet18 (fine-tuned)
 
-Batch Size: 32
+🔹 Loss Function: CrossEntropyLoss
 
-Accuracy: 99.65%
+🔹 Optimizer: Adam
 
-Results
-The model achieved the following results on the test set:
+🔹 Learning Rate: 0.0001
 
-Accuracy: 99.65%
+🔹 Batch Size: 32
 
-Precision: 99.65%
+🔹 Epochs: 50
 
-Recall: 99.65%
+✅ Performance:
+Metric	             Value
+Accuracy       -   	99.65%
+Precision	     -     99.65%
+Recall	       -     99.65%
+F1-Score       -   	99.65%
 
-F1-Score: 99.65%
+-->Application Workflow
+Upload a blood smear image from your device.
 
-The Grad-CAM visualization helped identify the most significant features in the image, confirming the model's focus on relevant areas for leukemia detection.
+The model processes the image and predicts:
+🔴 Leukemia or 🟢 Healthy
+
+View Grad-CAM heatmap to understand which regions influenced the prediction.
+
+Developed with ❤️ using Deep Learning & Flask
+For academic and research purposes.
