@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="result-container text-center">
+            <h2 class="mb-4">Detailed Analysis Results</h2>
+            
+            <div class="probability-bar">
+                
+                <style>
+                    .probability-bar {
+                      --all-width: {{ '%.0f'|format(result.prediction.probabilities.All * 100) }}%;
+                      --hem-width: {{ '%.0f'|format(result.prediction.probabilities.Hem * 100) }}%;
+                    }
+                  </style>
+                  
+                  <div class="probability-bar" style="display: flex; height: 40px;">
+                    <div class="all" style="width: var(--all-width); background: #e74c3c;">
+                      ALL: {{ '%.1f'|format(result.prediction.probabilities.All * 100) }}%
+                    </div>
+                    <div class="hem" style="width: var(--hem-width); background: #2ecc71;">
+                      HEM: {{ '%.1f'|format(result.prediction.probabilities.Hem * 100) }}%
+                    </div>
+                  </div>
+            </div>
+            
+            <div class="mt-4">
+                <h3>Diagnosis: 
+                    <span class="{{ 'text-danger' if pred_class == 'all' else 'text-success' }}">
+                        {{ pred_class.upper() }}
+                    </span>
+                </h3>
+                <p class="lead">Confidence: {{ '%.1f'|format(confidence*100) }}%</p>
+                
+                {% if not is_confident %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Low confidence result - please consult a specialist
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mt-4">
+                <a href="/" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Analyzer
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

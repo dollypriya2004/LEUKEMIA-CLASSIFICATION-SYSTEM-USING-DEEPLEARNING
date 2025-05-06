@@ -1,0 +1,450 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeukoScan - Leukemia Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+        }
+        
+        .sidenav {
+            height: 100vh;
+            background: var(--primary);
+            position: fixed;
+            width: 250px;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidenav-brand {
+            color: white;
+            font-weight: 700;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: rgba(0,0,0,0.2);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            min-height: 100vh;
+            background-color: white;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+        
+        .image-preview {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8fafc;
+        }
+        
+        .image-preview:hover {
+            border-color: var(--secondary);
+            background-color: #f0f7ff;
+        }
+        
+        .error-alert {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .loading {
+            font-style: italic;
+            color: #0c5460;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .drag-over {
+            border-color: var(--secondary) !important;
+            background-color: #e7f1ff !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2c8fd6;
+            border-color: #2c8fd6;
+            transform: translateY(-2px);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger);
+        }
+        
+        .badge-success {
+            background-color: var(--success);
+        }
+        
+        .progress {
+            border-radius: 50px;
+            height: 10px;
+        }
+        
+        .progress-bar {
+            border-radius: 50px;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary);
+        }
+        
+        .home-hero {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .sidenav {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Side Navigation -->
+    <div class="sidenav">
+        <div class="sidenav-brand">
+            <i class="fas fa-microscope me-2"></i>
+            LeukoScan
+        </div>
+        <ul class="nav flex-column p-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="showTab('home')">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showTab('diagnosis')">
+                    <i class="fas fa-diagnoses me-2"></i> Diagnosis
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Tab -->
+        <div id="home" class="tab-content active">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="home-hero text-center">
+                        <h1 class="text-primary mb-4">Early Detection Saves Lives</h1>
+                        <p class="lead mb-4">
+                            LeukoScan uses advanced AI to detect leukemia from blood cell images with high accuracy.
+                            Get instant analysis of your microscopic blood cell images.
+                        </p>
+                        <button class="btn btn-primary btn-lg px-4" onclick="showTab('diagnosis')">
+                            Start Diagnosis <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagnosis Tab -->
+        <div id="diagnosis" class="tab-content">
+            <h2 class="mb-4"><i class="fas fa-diagnoses me-2"></i>Cell Analysis</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card p-4 mb-4">
+                        <h4 class="mb-4">Upload Blood Cell Image</h4>
+                        <div class="image-preview p-4 text-center" id="imagePreview">
+                            <i class="fas fa-microscope fa-4x mb-3 text-muted"></i>
+                            <p class="text-muted">Click to upload or drag & drop</p>
+                            <p class="small text-muted">Supports: BMP, PNG, JPG, JPEG</p>
+                            <input type="file" id="imageUpload" accept="image/*" class="d-none">
+                        </div>
+                        <button id="analyzeBtn" class="btn btn-primary mt-3" disabled>
+                            <i class="fas fa-search me-2"></i> Analyze Image
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4">
+                        <h4 class="mb-4">Analysis Results</h4>
+                        <div id="resultsContainer" class="text-center py-5">
+                            <i class="fas fa-microscope fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Results will appear here after analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tab Navigation
+        function showTab(tabId) {
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show selected tab
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // DOM Elements
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        // Image Upload Handling
+        imagePreview.addEventListener('click', () => imageUpload.click());
+
+        // Setup drag and drop
+        imagePreview.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imagePreview.classList.add('drag-over');
+        });
+
+        imagePreview.addEventListener('dragleave', () => {
+            imagePreview.classList.remove('drag-over');
+        });
+
+        imagePreview.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imagePreview.classList.remove('drag-over');
+            
+            if (e.dataTransfer.files.length) {
+                imageUpload.files = e.dataTransfer.files;
+                handleFileUpload(e.dataTransfer.files[0]);
+            }
+        });
+
+        // File input change handler
+        imageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            handleFileUpload(file);
+        });
+
+        function handleFileUpload(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `
+                    <img src="${e.target.result}" class="img-fluid rounded mb-2">
+                    <p class="small">${file.name}</p>
+                    <p class="small text-muted">Supports: BMP, PNG, JPG, JPEG</p>
+                `;
+                analyzeBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Analyze Button Click Handler
+        analyzeBtn.addEventListener('click', function() {
+            const file = imageUpload.files[0];
+            if (!file) return;
+            
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Analyzing...';
+            analyzeBtn.disabled = true;
+            resultsContainer.innerHTML = '<div class="loading">Processing image...</div>';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            fetch('/analyze', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(JSON.stringify(err));
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    if (data.is_confident) {
+                        displayResults(data);
+                    } else {
+                        showWarning(data);
+                    }
+                } else {
+                    showError(data);
+                }
+            })
+            .catch(error => {
+                try {
+                    const errData = JSON.parse(error.message);
+                    showError(errData);
+                } catch (e) {
+                    showError({
+                        error: "Analysis Failed",
+                        details: "We couldn't process your image. Please try again."
+                    });
+                }
+            })
+            .finally(() => {
+                analyzeBtn.innerHTML = '<i class="fas fa-search me-2"></i> Analyze Image';
+                analyzeBtn.disabled = false;
+            });
+        });
+
+        // Display Results Function
+        function displayResults(data) {
+            const isAll = data.class.toLowerCase() === 'all';
+            resultsContainer.innerHTML = `
+                <h4 class="mb-3">Diagnosis: <span class="${isAll ? 'text-danger' : 'text-success'}">${data.class.toUpperCase()}</span></h4>
+                <div class="confidence-meter mb-3">
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar ${isAll ? 'bg-danger' : 'bg-success'}" 
+                             role="progressbar" style="width: ${data.probability * 100}%" 
+                             aria-valuenow="${data.probability * 100}" aria-valuemin="0" aria-valuemax="100">
+                            ${(data.probability * 100).toFixed(1)}% Confidence
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <h5>ALL Probability</h5>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-danger" style="width: ${data.all_probability * 100}%">
+                                ${(data.all_probability * 100).toFixed(1)}%
+                            </div>
+                        </div>
+                        ${data.all_probability > 0.7 ? `
+                        <div class="alert alert-danger mt-2">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Precaution:</strong> High ALL probability detected. 
+                            Please consult a hematologist immediately for further evaluation.
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="col-md-6">
+                        <h5>HEM Probability</h5>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-success" style="width: ${data.hem_probability * 100}%">
+                                ${(data.hem_probability * 100).toFixed(1)}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ${data.warning ? `<div class="alert alert-warning mt-3">${data.warning}</div>` : ''}
+            `;
+        }
+
+        // Show Error Function
+        function showError(data) {
+            let errorHtml = `
+                <div class="alert alert-danger">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i> ${data.error || 'Image Error'}</h5>
+                    <div class="mt-2">
+                        <p>${data.details || 'The image cannot be processed'}</p>
+                        ${data.suggestion ? `<p><strong>Suggestion:</strong> ${data.suggestion}</p>` : ''}
+                    </div>
+                </div>
+            `;
+            resultsContainer.innerHTML = errorHtml;
+        }
+
+        // Show Warning Function (low confidence)
+        function showWarning(data) {
+            resultsContainer.innerHTML = `
+                <div class="alert alert-warning">
+                    <h5>Inconclusive Results</h5>
+                    <p>${data.warning || 'The analysis could not determine with confidence'}</p>
+                    <div class="probability-results mt-3">
+                        <div class="result-row mb-2">
+                            <span class="fw-bold">ALL Probability:</span>
+                            <span class="ms-2">${(data.all_probability * 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="fw-bold">HEM Probability:</span>
+                            <span class="ms-2">${(data.hem_probability * 100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+                    <p class="mt-3"><strong>Recommendation:</strong> Please consult a hematologist for further evaluation.</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
