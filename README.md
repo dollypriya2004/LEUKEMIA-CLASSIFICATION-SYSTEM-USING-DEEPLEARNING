@@ -15,12 +15,12 @@ A deep learning-based web application that classifies blood smear images as Leuk
 📁 Project Structure
 
 
-├── app.py               # Flask web app backend
-├── model.pth            # Trained ResNet18 model
-├── static/              # Static files (CSS, JS, images)
-├── templates/           # HTML templates
-├── utils.py             # Image preprocessing and Grad-CAM logic
-├── requirements.txt     # Python dependencies
+app.py               # Flask web app backend
+model.pth            # Trained ResNet18 model
+static/              # Static files (CSS, JS, images)
+templates/           # HTML templates
+utils.py             # Image preprocessing and Grad-CAM logic
+requirements.txt     # Python dependencies
 
 
 🧠 Technologies Used
